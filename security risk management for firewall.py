@@ -33,6 +33,10 @@ def normalize_log(log_line):
 def normalize_logs(logs):
     normalized_logs = []
     for log in logs:
+        # 修正(2026-10-29): 空行や2語未満の行は normalize_log 内の split()[1] で
+        # IndexError になるため、読み飛ばす（実ログには空行が混ざる）
+        if len(log.split()) < 2:
+            continue
         normalized_logs.append(normalize_log(log))
     return normalized_logs
 
